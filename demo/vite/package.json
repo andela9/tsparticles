@@ -11,9 +11,12 @@
     "dependencies": {
         "@tsparticles/all": "^3.3.0",
         "@tsparticles/configs": "^3.3.0",
-        "@tsparticles/engine": "^3.3.0"
+        "@tsparticles/engine": "^3.3.0",
+        "react": "^18.2.0",
+        "react-dom": "^18.2.0"
     },
     "devDependencies": {
+        "@types/react-dom": "^18.2.24",
         "typescript": "^5.3.3",
         "vite": "^5.1.4"
     }

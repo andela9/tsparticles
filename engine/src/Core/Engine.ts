@@ -532,15 +532,15 @@ export class Engine {
 
         let canvasEl: HTMLCanvasElement;
 
-        if (domContainer.tagName.toLowerCase() === "canvas") {
+        if (domContainer.tagName?.toLowerCase() === "canvas") {
             canvasEl = domContainer as HTMLCanvasElement;
 
             canvasEl.dataset[generatedAttribute] = "false";
         } else {
-            const existingCanvases = domContainer.getElementsByTagName("canvas");
+            const existingCanvases = domContainer?.getElementsByTagName?.("canvas");
 
             /* get existing canvas if present, otherwise a new one will be created */
-            if (existingCanvases.length) {
+            if (existingCanvases?.length) {
                 const firstIndex = 0;
 
                 canvasEl = existingCanvases[firstIndex];
@@ -553,7 +553,7 @@ export class Engine {
                 canvasEl.dataset[generatedAttribute] = "true";
 
                 /* append canvas */
-                domContainer.appendChild(canvasEl);
+                domContainer?.appendChild?.(canvasEl);
             }
         }
 

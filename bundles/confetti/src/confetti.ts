@@ -213,6 +213,56 @@ async function setConfetti(params: ConfettiParams): Promise<Container | undefine
                             decay: decayOffset - actualOptions.decay,
                             direction: -actualOptions.angle,
                         },
+
+                        rotate: {
+                            value: actualOptions.flat
+                            ? disableRotate
+                            : {
+                                  min: 0,
+                                  max: 360,
+                              },
+                            direction: "random",
+                            animation: {
+                                enable: true,
+                                speed: actualOptions.flat ? 1 : 60,
+                            },
+                        },
+                        tilt: {
+                            direction: "random",
+                            enable: true,
+                            value: actualOptions.flat
+                                ? {
+                                    min: -180,
+                                    max: 180,
+                                }
+                                : {
+                                      min: 0,
+                                      max: 360,
+                                  },
+                            animation: {
+                                enable: true,
+                                speed: actualOptions.flat ? 25 : 60,
+                            },
+                        },
+                        roll: {
+                            darken: {
+                                enable: true,
+                                value: 25,
+                            },
+                            enable: !actualOptions.flat,
+                            speed: {
+                                min: 15,
+                                max: 25,
+                            },
+                        },
+                        wobble: {
+                            distance: 10,
+                            enable: true,
+                            speed: {
+                                min: -15,
+                                max: 15,
+                            },
+                        },
                     },
                 });
 
@@ -221,6 +271,7 @@ async function setConfetti(params: ConfettiParams): Promise<Container | undefine
         }
     }
 
+    console.log("actualOptions.shapeOptions", actualOptions.shapeOptions)
     const particlesOptions: ISourceOptions = {
         fullScreen: {
             enable: !params.canvas,
@@ -283,29 +334,29 @@ async function setConfetti(params: ConfettiParams): Promise<Container | undefine
             },
             rotate: {
                 value: actualOptions.flat
-                    ? disableRotate
-                    : {
-                          min: 0,
-                          max: 360,
-                      },
+                ? disableRotate
+                : {
+                      min: 0,
+                      max: 360,
+                  },
                 direction: "random",
                 animation: {
-                    enable: !actualOptions.flat,
-                    speed: 60,
+                    enable: true,
+                    speed: 1,
                 },
             },
             tilt: {
                 direction: "random",
-                enable: !actualOptions.flat,
+                enable: true,
                 value: actualOptions.flat
                     ? disableTilt
                     : {
-                          min: 0,
-                          max: 360,
+                          min: -180,
+                          max: 180,
                       },
                 animation: {
                     enable: true,
-                    speed: 60,
+                    speed: 25,
                 },
             },
             roll: {
@@ -313,15 +364,15 @@ async function setConfetti(params: ConfettiParams): Promise<Container | undefine
                     enable: true,
                     value: 25,
                 },
-                enable: !actualOptions.flat,
+                enable: !actualOptions.shapeOptions,
                 speed: {
                     min: 15,
                     max: 25,
                 },
             },
             wobble: {
-                distance: 30,
-                enable: !actualOptions.flat,
+                distance: 10,
+                enable: true,
                 speed: {
                     min: -15,
                     max: 15,
@@ -391,6 +442,7 @@ export async function confetti(
         options = idOrOptions;
     }
 
+    console.log("confetti")
     return setConfetti({
         id,
         options,
