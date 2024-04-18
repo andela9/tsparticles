@@ -4,7 +4,7 @@
  */
 import { errorPrefix, generatedAttribute } from "./Utils/Constants.js";
 import { executeOnSingleOrMultiple, getLogger, itemFromSingleOrMultiple } from "../Utils/Utils.js";
-import type { Container } from "./Container.js";
+import { Container } from "./Container.js";
 import type { CustomEventArgs } from "../Types/CustomEventArgs.js";
 import type { CustomEventListener } from "../Types/CustomEventListener.js";
 import { EventDispatcher } from "../Utils/EventDispatcher.js";
@@ -78,7 +78,7 @@ async function getItemsFromInitializer<TItem, TInitializer extends GenericInitia
     let res = map.get(container);
 
     if (!res || force) {
-        res = await Promise.all([...initializers.values()].map((t) => t(container)));
+        res = await Promise.all([...initializers.values()].map(t => t(container)));
 
         map.set(container, res);
     }
@@ -219,7 +219,7 @@ export class Engine {
      * @param refresh - should refresh the dom after adding the effect
      */
     async addEffect(effect: SingleOrMultiple<string>, drawer: IEffectDrawer, refresh = true): Promise<void> {
-        executeOnSingleOrMultiple(effect, (type) => {
+        executeOnSingleOrMultiple(effect, type => {
             if (!this.getEffectDrawer(type)) {
                 this.effectDrawers.set(type, drawer);
             }
@@ -321,16 +321,17 @@ export class Engine {
 
     /**
      * addShape adds shape to tsParticles, it will be available to all future instances created
-     * @param shape - the shape name
      * @param drawer - the shape drawer function or class instance that draws the shape in the canvas
      * @param refresh - should refresh the dom after adding the shape
      */
-    async addShape(shape: SingleOrMultiple<string>, drawer: IShapeDrawer, refresh = true): Promise<void> {
-        executeOnSingleOrMultiple(shape, (type) => {
-            if (!this.getShapeDrawer(type)) {
-                this.shapeDrawers.set(type, drawer);
+    async addShape(drawer: IShapeDrawer, refresh = true): Promise<void> {
+        for (const validType of drawer.validTypes) {
+            if (this.getShapeDrawer(validType)) {
+                continue;
             }
-        });
+
+            this.shapeDrawers.set(validType, drawer);
+        }
 
         await this.refresh(refresh);
     }
@@ -433,7 +434,7 @@ export class Engine {
      * @returns the plugin if found, or undefined
      */
     getPlugin(plugin: string): IPlugin | undefined {
-        return this.plugins.find((t) => t.id === plugin);
+        return this.plugins.find(t => t.id === plugin);
     }
 
     /**
@@ -515,7 +516,7 @@ export class Engine {
 
         const currentOptions = itemFromSingleOrMultiple(options, index),
             dom = this.dom(),
-            oldIndex = dom.findIndex((v) => v.id.description === id),
+            oldIndex = dom.findIndex(v => v.id.description === id),
             minIndex = 0;
 
         if (oldIndex >= minIndex) {
@@ -566,8 +567,7 @@ export class Engine {
         }
 
         /* launch tsParticles */
-        const { Container } = await import("./Container.js"),
-            newItem = new Container(this, id, currentOptions);
+        const newItem = new Container(this, id, currentOptions);
 
         if (oldIndex >= minIndex) {
             const deleteCount = 0;
@@ -626,7 +626,7 @@ export class Engine {
             return;
         }
 
-        await Promise.all(this.dom().map((t) => t.refresh()));
+        await Promise.all(this.dom().map(t => t.refresh()));
     }
 
     /**
