@@ -146,6 +146,58 @@ async function setConfetti(params: ConfettiParams): Promise<Container | undefine
 
     let container;
 
+    const rotateValues = {
+        rotate: {
+            value: actualOptions.disabled || actualOptions.flat
+            ? disableRotate
+            : {
+                  min: 0,
+                  max: 360,
+              },
+            direction: "random",
+            animation: {
+                enable: !actualOptions.disabled,
+                speed: actualOptions.flat ? 1 : 60,
+            },
+        },
+        tilt: {
+            direction: "random",
+            enable: !actualOptions.disabled,
+            value: actualOptions.flat
+                ? {
+                    min: -180,
+                    max: 180,
+                }
+                : {
+                      min: 0,
+                      max: 360,
+                  },
+            animation: {
+                enable: !actualOptions.disabled,
+                speed: actualOptions.flat ? 25 : 60,
+            },
+        },
+        roll: {
+            darken: {
+                enable: actualOptions.disabled,
+                value: 25,
+            },
+            enable: !actualOptions.flat,
+            speed: {
+                min: 15,
+                max: 25,
+            },
+        },
+        wobble: {
+            distance: 10,
+            enable: !actualOptions.disabled,
+            speed: {
+                min: -15,
+                max: 15,
+            },
+        },
+    };
+
     const fpsLimit = 120,
         fpsLimitFactor = 3.6,
         opacitySpeed =
@@ -213,52 +265,7 @@ async function setConfetti(params: ConfettiParams): Promise<Container | undefine
                             decay: decayOffset - actualOptions.decay,
                             direction: -actualOptions.angle,
                         },
-                        rotate: {
-                            value: actualOptions.flat
-                                ? disableRotate
-                                : {
-                                      min: 0,
-                                      max: 360,
-                                  },
-                            direction: "random",
-                            animation: {
-                                enable: !actualOptions.flat,
-                                speed: 60,
-                            },
-                        },
-                        tilt: {
-                            direction: "random",
-                            enable: !actualOptions.flat,
-                            value: actualOptions.flat
-                                ? disableTilt
-                                : {
-                                      min: 0,
-                                      max: 360,
-                                  },
-                            animation: {
-                                enable: true,
-                                speed: 60,
-                            },
-                        },
-                        roll: {
-                            darken: {
-                                enable: true,
-                                value: 25,
-                            },
-                            enable: !actualOptions.flat,
-                            speed: {
-                                min: 15,
-                                max: 25,
-                            },
-                        },
-                        wobble: {
-                            distance: 30,
-                            enable: !actualOptions.flat,
-                            speed: {
-                                min: -15,
-                                max: 15,
-                            },
-                        },
+                      ...rotateValues,
                     },
                 });
 
@@ -327,52 +334,7 @@ async function setConfetti(params: ConfettiParams): Promise<Container | undefine
                     bottom: "destroy",
                 },
             },
-            rotate: {
-                value: actualOptions.flat
-                    ? disableRotate
-                    : {
-                          min: 0,
-                          max: 360,
-                      },
-                direction: "random",
-                animation: {
-                    enable: !actualOptions.flat,
-                    speed: 60,
-                },
-            },
-            tilt: {
-                direction: "random",
-                enable: !actualOptions.flat,
-                value: actualOptions.flat
-                    ? disableTilt
-                    : {
-                          min: 0,
-                          max: 360,
-                      },
-                animation: {
-                    enable: true,
-                    speed: 60,
-                },
-            },
-            roll: {
-                darken: {
-                    enable: true,
-                    value: 25,
-                },
-                enable: !actualOptions.flat,
-                speed: {
-                    min: 15,
-                    max: 25,
-                },
-            },
-            wobble: {
-                distance: 30,
-                enable: !actualOptions.flat,
-                speed: {
-                    min: -15,
-                    max: 15,
-                },
-            },
+            ...rotateValues,
         },
         detectRetina: true,
         motion: {

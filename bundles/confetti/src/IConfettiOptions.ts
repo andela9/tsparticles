@@ -32,6 +32,11 @@ export interface IConfettiOptions {
     /**
      *
      */
+    disabled: boolean;
+
+    /**
+     *
+     */
     drift: number;
 
     /**

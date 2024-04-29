@@ -43,6 +43,11 @@ export class ConfettiOptions implements IConfettiOptions, IOptionLoader<IConfett
     /**
      *
      */
+    disabled: boolean;
+
+    /**
+     *
+     */
     drift: number;
 
     /**
@@ -115,6 +120,7 @@ export class ConfettiOptions implements IConfettiOptions, IOptionLoader<IConfett
         this.shapes = ["square", "circle"];
         this.scalar = 1;
         this.zIndex = 100;
+        this.disabled = false;
         this.disableForReducedMotion = true;
         this.flat = false;
         this.shapeOptions = {};
@@ -256,6 +262,10 @@ export class ConfettiOptions implements IConfettiOptions, IOptionLoader<IConfett
 
         if (data.zIndex !== undefined) {
             this.zIndex = data.zIndex;
+        }
+
+        if (data.disabled !== undefined) {
+            this.disabled = data.disabled;
         }
 
         if (data.disableForReducedMotion !== undefined) {
